@@ -37,8 +37,12 @@
     </script>
     <script src="template-engine.js"></script>
     <script src="templates.js"></script>
+    <script src="utils.js"></script>
     <script>
         window.application = {
+            root: undefined,
+            token: undefined,
+            nickName: undefined,
             blocks: {},
             screens: {},
             renderScreen: function(screenName) {},
@@ -47,6 +51,9 @@
             timers: []
         }
         
+        const urlDomain = 'https://skypro-rock-scissors-paper.herokuapp.com/';
+
+        const app = window.application.root = document.querySelector('.app');
         window.application.blocks['example-button'] = renderExampleButton;
         window.application.blocks['example-input'] = renderInput;
 
@@ -110,26 +117,136 @@
 
         // renderExampleScreen();
 
-        const screen_1 = templateEngine(LoginPageTemplate());
-        document.body.appendChild(screen_1);
+        // ----- main -------
+        
+        function clearScreen() {
+            window.application.root.textContent = '';
+            console.log(window.application.root);
+        }
+
+        function renderLoginScreen() {
+            clearScreen();
+            const screen = templateEngine(LoginPageTemplate());
+            app.appendChild(screen);
+           
+            const loginFormButton = document.querySelector('.login-form__button');
+            const nickName = document.querySelector('.login-form__input');
+            
+            loginFormButton.addEventListener('click', () => {
+                console.log('click');
+                
+                if (!nickName.value) return;
+                
+                console.log(nickName.value);
+                
+                // const url = 'https://skypro-rock-scissors-paper.herokuapp.com/player-status?token=4b18f75d-d6b5-4f47-b986-b7bf884089ef'
+                // const url = urlDomain + 'ping';
+                
+                const url = urlDomain + `login?login=${nickName.value}`;
+                
+                function onSuccess(response) {
+                    console.log(response);
+
+                    if (response.status === 'ok') {
+                        window.application.token = response.token;
+                        renderLobbyScreen();
+                    }
+                    
+                    console.log(window.application.token);
+                }
+                
+                httpRequest({url, onSuccess});
+            });
+            
+        }
+
+        
+        function getPlayerList(token, callback) {
+            const url = urlDomain + `player-list?token=${token}`;
+            httpRequest({url, onSuccess: callback});
+        }
+        
+        function onGetPlayerList(response) {
+            console.log(response);
+        }
+
+        function renderLobbyScreen() {
+            clearScreen();
+            const screen = templateEngine(LobbyPageTemplate());
+            app.appendChild(screen);
+                                   
+            const lobbyButton = document.querySelector('.lobby__button');
+            const lobbyPlayersList = document.querySelector('.lobby__players-list');
+            
+            getPlayerList(window.application.token, (response) => {
+                console.log(response);
+                let i = 1;
+                for(let player of response.list) {
+                    const playerElement = document.createElement('p');
+                    playerElement.textContent = player.login;
+                    lobbyPlayersList.appendChild(playerElement);
+                    i++;
+                    if (i > 3) break;
+                }
+            });
+            
+            lobbyButton.addEventListener('click', () => {
+                console.log('lobby button click');
+
+                // if (!nickName.value) return;
+                
+                // console.log(nickName.value);
+                
+                // // const url = 'https://skypro-rock-scissors-paper.herokuapp.com/player-status?token=4b18f75d-d6b5-4f47-b986-b7bf884089ef'
+                // // const url = urlDomain + 'ping';
+                
+                // const url = urlDomain + `login?login=${nickName.value}`;
+                
+                // function onSuccess(response) {
+                //     console.log(response);
+
+                //     if (response.status === 'ok') {
+                //         window.application.token = response.token;
+                //     }
+                    
+                //     console.log(window.application.token);
+                // }
+                
+                // httpRequest({url, onSuccess});
+            });
+            
+        }
+
+
+
+
+        // ----- end of main --------
+
+        // const screen_1 = templateEngine(LoginPageTemplate());
+        // app.appendChild(screen_1);
+
+        renderLoginScreen();
 
         const screen_2 = templateEngine(LobbyPageTemplate());
-        document.body.appendChild(screen_2);
+        app.appendChild(screen_2);
 
         const screen_3 = templateEngine(GamePageTemplate());
-        document.body.appendChild(screen_3);
+        app.appendChild(screen_3);
 
         const screen_4 = templateEngine(WaitingPageTemplate('Игрок 2', 'Ожидаем подключение соперника...'));
-        document.body.appendChild(screen_4);
+        app.appendChild(screen_4);
 
         const screen_5 = templateEngine(WaitingPageTemplate('Игрок 2', 'Ожидаем ход соперника...'));
-        document.body.appendChild(screen_5);
+        app.appendChild(screen_5);
 
         const screen_6 = templateEngine(FinalPageTemplate('Игрок 2', 'Вы проиграли!'));
-        document.body.appendChild(screen_6);
+        app.appendChild(screen_6);
 
+        // screen_6.innerHTML = '';
+
+        // clearScreen();
         const screen_7 = templateEngine(FinalPageTemplate('Игрок 2', 'Вы выиграли!'));
-        document.body.appendChild(screen_7);
+        app.appendChild(screen_7);
 
     </script>
 </body>

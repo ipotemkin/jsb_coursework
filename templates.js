@@ -13,6 +13,7 @@ function LoginPageTemplate() {
             },
             {
                 tag: 'input',
+                cls: 'login-form__input',
                 content: 'input text',
                 attrs: {
                     placeholder: 'You nickname'
@@ -20,6 +21,7 @@ function LoginPageTemplate() {
             },
             {
                 tag: 'button',
+                cls: 'login-form__button',
                 content: 'Войти'
             }
         ]
@@ -35,6 +37,10 @@ function LobbyPageTemplate() {
                 tag: 'h2',
                 content: 'Лобби'
             },
+            {
+                tag: 'div',
+                cls: 'lobby__players-list',
+            },
             // // {
             // //     tag: 'h3',
             // //     content: 'Экран входа',
@@ -48,6 +54,7 @@ function LobbyPageTemplate() {
             // },
             {
                 tag: 'button',
+                cls: 'lobby__button',
                 content: 'Играть!'
             }
         ]
