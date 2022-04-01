@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра</title>
+    <style>
+        html {
+            font-family: sans-serif;
+        }
+
+        .app {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            
+            width: 200px;
+            padding: 20px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+
+            /* width: 200px; */
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="app"></div>
+
+    <script>
+    </script>
+    <script src="template-engine.js"></script>
+    <script src="templates.js"></script>
+    <script>
+        window.application = {
+            blocks: {},
+            screens: {},
+            renderScreen: function(screenName) {},
+            // renderBlock: function(blockName, container) {},
+            renderBlock: renderBlock,
+            timers: []
+        }
+        
+        window.application.blocks['example-button'] = renderExampleButton;
+        window.application.blocks['example-input'] = renderInput;
+
+        function renderButton(container, name, class_name='none') {
+            const button = document.createElement('button');
+            button.textContent = name;
+            button.classList.add(class_name);
+
+            button.addEventListener('click', () => {
+                console.log('click');
+            });
+
+            container.appendChild(button);
+        }
+
+        function renderElement(container, type='div', name='', value='', class_name='none') {
+            const element = document.createElement(type);
+            // button.textContent = name;
+            element.classList.add(class_name);
+            element.value = value;
+
+            element.addEventListener('click', () => {
+                console.log('click');
+            });
+
+            container.appendChild(element);
+        }
+
+        function renderInput(container) {
+            renderElement(container, 'input', 'testing input', 'testing name');
+        }
+
+
+        function renderExampleButton(container) {
+            renderButton(container, 'Example');
+        }
+
+        function renderExampleScreen() {
+            const app = document.querySelector('.app');
+            app.textContent = '';
+
+            const title = document.createElement('h1');
+            title.textContent = 'Страница-пример';
+
+            const content = document.createElement('div');
+            content.classList.add('content');
+                
+            window.application.renderBlock('example-input', content);
+            window.application.renderBlock('example-button', content);
+
+
+            app.appendChild(title);
+            app.appendChild(content);
+        }
+
+        function renderBlock(element, container) {
+            window.application.blocks[element](container);
+        }
+
+        console.log(window.application);
+
+        // renderExampleScreen();
+
+        const screen_1 = templateEngine(LoginPageTemplate());
+        document.body.appendChild(screen_1);
+
+        const screen_2 = templateEngine(LobbyPageTemplate());
+        document.body.appendChild(screen_2);
+
+        const screen_3 = templateEngine(GamePageTemplate());
+        document.body.appendChild(screen_3);
+
+        const screen_4 = templateEngine(WaitingPageTemplate('Игрок 2', 'Ожидаем подключение соперника...'));
+        document.body.appendChild(screen_4);
+
+        const screen_5 = templateEngine(WaitingPageTemplate('Игрок 2', 'Ожидаем ход соперника...'));
+        document.body.appendChild(screen_5);
+
+        const screen_6 = templateEngine(FinalPageTemplate('Игрок 2', 'Вы проиграли!'));
+        document.body.appendChild(screen_6);
+
+        const screen_7 = templateEngine(FinalPageTemplate('Игрок 2', 'Вы выиграли!'));
+        document.body.appendChild(screen_7);
+
+    </script>
+</body>
+</html>
