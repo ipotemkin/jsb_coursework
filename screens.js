@@ -33,7 +33,20 @@ function renderLoginScreen() {
 
             if (response.status === 'ok') {
                 window.application.token = response.token;
-                renderLobbyScreen();
+                requests.getPlayerStatus(window.application.token, (response) => {
+                    console.log(response);
+                    if (response.status !== 'ok') {
+                        console.log('error');
+                        return;
+                    }
+                    if (response['player-status'].status === 'lobby') renderLobbyScreen();
+                    else {
+                        window.application.gameId = response['player-status'].game.id;
+                        requests.getGameStatus(window.application.token, window.application.gameId);
+                    }
+                });
+                
+                // renderLobbyScreen();
             }
             
             console.log(window.application.token);                    
@@ -111,4 +124,10 @@ function renderGameScreen(enemy) {
     buttonPaper.addEventListener('click', () => {
         console.log('paper');
     });        
+}
+
+function renderWaitingScreenNoEnemy() {
+    clearScreen();
+    const screen = templateEngine(WaitingPageTemplate('NoEnemyYet', 'Ожидаем подключение соперника...'));
+    app.appendChild(screen);
 }

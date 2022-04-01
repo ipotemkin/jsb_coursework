@@ -99,6 +99,7 @@ function GamePageTemplate(enemy) {
 }
 
 function WaitingPageTemplate(rival, message) {
+    const rival_str = rival === 'NoEnemyYet' ? '' : `Вы против <${rival}>`
     return {
         tag: 'div',
         cls: 'app',
@@ -109,13 +110,12 @@ function WaitingPageTemplate(rival, message) {
             },
             {
                 tag: 'h3',
-                content: `Вы против <${rival}>`,
+                content: rival_str,
             },
             {
                 tag: 'h2',
                 content: message,
             },
-
         ]
     }
 }
