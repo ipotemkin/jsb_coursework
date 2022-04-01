@@ -23,6 +23,11 @@ function LoginPageTemplate() {
                 tag: 'button',
                 cls: 'login-form__button',
                 content: 'Войти'
+            },
+            {
+                tag: 'button',
+                cls: 'login-form__game-status',
+                content: 'Статус игры'
             }
         ]
     }
@@ -61,7 +66,7 @@ function LobbyPageTemplate() {
     }
 }
 
-function GamePageTemplate() {
+function GamePageTemplate(enemy) {
     return {
         tag: 'div',
         cls: 'app',
@@ -72,25 +77,21 @@ function GamePageTemplate() {
             },
             {
                 tag: 'h3',
-                content: 'Вы против <Игрок 2>',
+                content: `Вы против <${enemy}>`,
             },
-            // {
-            //     tag: 'input',
-            //     content: 'input text',
-            //     attrs: {
-            //         placeholder: 'You nickname'
-            //     }
-            // },
             {
                 tag: 'button',
+                cls: 'game__button-stone',
                 content: 'Камень'
             },
             {
                 tag: 'button',
+                cls: 'game__button-scissors',
                 content: 'Ножницы'
             },
             {
                 tag: 'button',
+                cls: 'game__button-paper',
                 content: 'Бумага'
             }
         ]

@@ -38,11 +38,15 @@
     <script src="template-engine.js"></script>
     <script src="templates.js"></script>
     <script src="utils.js"></script>
+    <script src="requests.js"></script>
+    <script src="screens.js"></script>
     <script>
         window.application = {
             root: undefined,
             token: undefined,
             nickName: undefined,
+            gameId: undefined,
+            enemy: undefined,
             blocks: {},
             screens: {},
             renderScreen: function(screenName) {},
@@ -52,6 +56,7 @@
         }
         
         const urlDomain = 'https://skypro-rock-scissors-paper.herokuapp.com/';
+        const requests = new Requests(urlDomain);
 
         const app = window.application.root = document.querySelector('.app');
         window.application.blocks['example-button'] = renderExampleButton;
@@ -119,105 +124,10 @@
 
         // ----- main -------
         
-        function clearScreen() {
-            window.application.root.textContent = '';
-            console.log(window.application.root);
-        }
-
-        function renderLoginScreen() {
-            clearScreen();
-            const screen = templateEngine(LoginPageTemplate());
-            app.appendChild(screen);
-           
-            const loginFormButton = document.querySelector('.login-form__button');
-            const nickName = document.querySelector('.login-form__input');
-            
-            loginFormButton.addEventListener('click', () => {
-                console.log('click');
-                
-                if (!nickName.value) return;
-                
-                console.log(nickName.value);
-                
-                // const url = 'https://skypro-rock-scissors-paper.herokuapp.com/player-status?token=4b18f75d-d6b5-4f47-b986-b7bf884089ef'
-                // const url = urlDomain + 'ping';
-                
-                const url = urlDomain + `login?login=${nickName.value}`;
-                
-                function onSuccess(response) {
-                    console.log(response);
-
-                    if (response.status === 'ok') {
-                        window.application.token = response.token;
-                        renderLobbyScreen();
-                    }
-                    
-                    console.log(window.application.token);
-                }
-                
-                httpRequest({url, onSuccess});
-            });
-            
-        }
-
-        
-        function getPlayerList(token, callback) {
-            const url = urlDomain + `player-list?token=${token}`;
-            httpRequest({url, onSuccess: callback});
-        }
         
         function onGetPlayerList(response) {
             console.log(response);
         }
-
-        function renderLobbyScreen() {
-            clearScreen();
-            const screen = templateEngine(LobbyPageTemplate());
-            app.appendChild(screen);
-                                   
-            const lobbyButton = document.querySelector('.lobby__button');
-            const lobbyPlayersList = document.querySelector('.lobby__players-list');
-            
-            getPlayerList(window.application.token, (response) => {
-                console.log(response);
-                let i = 1;
-                for(let player of response.list) {
-                    const playerElement = document.createElement('p');
-                    playerElement.textContent = player.login;
-                    lobbyPlayersList.appendChild(playerElement);
-                    i++;
-                    if (i > 3) break;
-                }
-            });
-            
-            lobbyButton.addEventListener('click', () => {
-                console.log('lobby button click');
-
-                // if (!nickName.value) return;
-                
-                // console.log(nickName.value);
-                
-                // // const url = 'https://skypro-rock-scissors-paper.herokuapp.com/player-status?token=4b18f75d-d6b5-4f47-b986-b7bf884089ef'
-                // // const url = urlDomain + 'ping';
-                
-                // const url = urlDomain + `login?login=${nickName.value}`;
-                
-                // function onSuccess(response) {
-                //     console.log(response);
-
-                //     if (response.status === 'ok') {
-                //         window.application.token = response.token;
-                //     }
-                    
-                //     console.log(window.application.token);
-                // }
-                
-                // httpRequest({url, onSuccess});
-            });
-            
-        }
-
-
 
 
         // ----- end of main --------
