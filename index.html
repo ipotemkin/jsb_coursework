@@ -47,6 +47,8 @@
             nickName: undefined,
             gameId: undefined,
             enemy: undefined,
+            timer: undefined,
+            counter: 0,
             blocks: {},
             screens: {},
             renderScreen: function(screenName) {},
@@ -137,26 +139,26 @@
 
         renderLoginScreen();
 
-        const screen_2 = templateEngine(LobbyPageTemplate());
-        app.appendChild(screen_2);
+        // const screen_2 = templateEngine(LobbyPageTemplate());
+        // app.appendChild(screen_2);
 
-        const screen_3 = templateEngine(GamePageTemplate());
-        app.appendChild(screen_3);
+        // const screen_3 = templateEngine(GamePageTemplate());
+        // app.appendChild(screen_3);
 
-        const screen_4 = templateEngine(WaitingPageTemplate('Игрок 2', 'Ожидаем подключение соперника...'));
-        app.appendChild(screen_4);
+        // const screen_4 = templateEngine(WaitingPageTemplate('Игрок 2', 'Ожидаем подключение соперника...'));
+        // app.appendChild(screen_4);
 
-        const screen_5 = templateEngine(WaitingPageTemplate('Игрок 2', 'Ожидаем ход соперника...'));
-        app.appendChild(screen_5);
+        // const screen_5 = templateEngine(WaitingPageTemplate('Игрок 2', 'Ожидаем ход соперника...'));
+        // app.appendChild(screen_5);
 
-        const screen_6 = templateEngine(FinalPageTemplate('Игрок 2', 'Вы проиграли!'));
-        app.appendChild(screen_6);
+        // const screen_6 = templateEngine(FinalPageTemplate('Игрок 2', 'Вы проиграли!'));
+        // app.appendChild(screen_6);
 
         // screen_6.innerHTML = '';
 
         // clearScreen();
-        const screen_7 = templateEngine(FinalPageTemplate('Игрок 2', 'Вы выиграли!'));
-        app.appendChild(screen_7);
+        // const screen_7 = templateEngine(FinalPageTemplate('Игрок 2', 'Вы выиграли!'));
+        // app.appendChild(screen_7);
 
     </script>
 </body>

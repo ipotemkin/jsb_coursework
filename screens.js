@@ -28,6 +28,7 @@ function renderLoginScreen() {
         // const url = 'https://skypro-rock-scissors-paper.herokuapp.com/player-status?token=4b18f75d-d6b5-4f47-b986-b7bf884089ef'
         // const url = urlDomain + 'ping';
                         
+        window.application.nickName = nickName.value;
         requests.login(nickName.value, (response) => {
             console.log(response);
 
@@ -89,15 +90,7 @@ function renderLobbyScreen() {
                 return;
             }
             window.application.gameId = response['player-status'].game.id;
-            requests.getGameStatus(window.application.token, window.application.gameId, (response) => {
-                console.log(response);
-                if (response.status !== 'ok') {
-                    console.log(response);
-                    return;
-                }
-                window.application.enemy = response['game-status'].enemy.login;
-                renderGameScreen(window.application.enemy);
-            });
+            requests.getGameStatus(window.application.token, window.application.gameId);
         });
 
     });
@@ -130,4 +123,6 @@ function renderWaitingScreenNoEnemy() {
     clearScreen();
     const screen = templateEngine(WaitingPageTemplate('NoEnemyYet', 'Ожидаем подключение соперника...'));
     app.appendChild(screen);
+    window.application.timer = setInterval(requests.checkGameStatus, 5000);
 }
+
