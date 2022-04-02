@@ -1,0 +1,54 @@
+html {
+    font-family: sans-serif;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    
+    width: 200px;
+    padding: 20px;
+
+    border: 0.5px solid;
+    border-radius: 8px;
+
+    /* background-color: lightgray; */
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+
+    /* width: 200px; */
+}
+
+.button {
+    border-radius: 8px;
+    border: none;
+
+    height: 24px;
+
+    background-color: lightblue;
+
+    transition: 0.6s;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: lightslategray;
+    color: white;
+}
+
+.input {
+    padding-left: 12px;
+    
+    height: 24px;
+    
+    border-radius: 8px;
+    border: none;
+
+    background-color: lightgray;
+}

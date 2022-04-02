@@ -1,7 +1,7 @@
 function LoginPageTemplate() {
     return {
         tag: 'div',
-        cls: 'app',
+        cls: 'content',
         content: [
             {
                 tag: 'h2',
@@ -13,7 +13,7 @@ function LoginPageTemplate() {
             },
             {
                 tag: 'input',
-                cls: 'login-form__input',
+                cls: ['login-form__input', 'input'],
                 content: 'input text',
                 attrs: {
                     placeholder: 'You nickname'
@@ -21,14 +21,14 @@ function LoginPageTemplate() {
             },
             {
                 tag: 'button',
-                cls: 'login-form__button',
+                cls: ['login-form__button', 'button'],
                 content: 'Войти'
             },
-            {
-                tag: 'button',
-                cls: 'login-form__game-status',
-                content: 'Статус игры'
-            }
+            // {
+            //     tag: 'button',
+            //     cls: 'login-form__game-status',
+            //     content: 'Статус игры'
+            // }
         ]
     }
 }
@@ -36,7 +36,7 @@ function LoginPageTemplate() {
 function LobbyPageTemplate() {
     return {
         tag: 'div',
-        cls: 'app',
+        cls: 'content',
         content: [
             {
                 tag: 'h2',
@@ -59,8 +59,13 @@ function LobbyPageTemplate() {
             // },
             {
                 tag: 'button',
-                cls: 'lobby__button',
+                cls: ['lobby__button', 'button'],
                 content: 'Играть!'
+            },
+            {
+                tag: 'button',
+                cls: ['lobby__button-logout', 'button'],
+                content: 'Logout'
             }
         ]
     }
@@ -69,7 +74,7 @@ function LobbyPageTemplate() {
 function GamePageTemplate(enemy) {
     return {
         tag: 'div',
-        cls: 'app',
+        cls: 'content',
         content: [
             {
                 tag: 'h2',
@@ -81,17 +86,17 @@ function GamePageTemplate(enemy) {
             },
             {
                 tag: 'button',
-                cls: 'game__button-stone',
+                cls: ['game__button-rock', 'button'],
                 content: 'Камень'
             },
             {
                 tag: 'button',
-                cls: 'game__button-scissors',
+                cls: ['game__button-scissors', 'button'],
                 content: 'Ножницы'
             },
             {
                 tag: 'button',
-                cls: 'game__button-paper',
+                cls: ['game__button-paper', 'button'],
                 content: 'Бумага'
             }
         ]
@@ -102,7 +107,7 @@ function WaitingPageTemplate(rival, message) {
     const rival_str = rival === 'NoEnemyYet' ? '' : `Вы против <${rival}>`
     return {
         tag: 'div',
-        cls: 'app',
+        cls: 'content',
         content: [
             {
                 tag: 'h2',
@@ -123,7 +128,7 @@ function WaitingPageTemplate(rival, message) {
 function FinalPageTemplate(rival, message) {
     return {
         tag: 'div',
-        cls: 'app',
+        cls: 'content',
         content: [
             {
                 tag: 'h2',
@@ -139,10 +144,12 @@ function FinalPageTemplate(rival, message) {
             },
             {
                 tag: 'button',
+                cls: ['final__button-play-again', 'button'],
                 content: 'Играть еще!'
             },
             {
                 tag: 'button',
+                cls: ['final__button-lobby', 'button'],
                 content: 'В лобби'
             },
 
