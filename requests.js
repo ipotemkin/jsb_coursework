@@ -1,3 +1,13 @@
+// error checker and handler
+function isErrorIn(response) {
+    if (response.status === 'ok') return false;
+    
+    console.log(response);
+    renderLoginScreen();  // if an error go to the login screen
+    return true;
+}
+
+
 class Requests {
     constructor(urlDomain) {
         this.urlDomain = urlDomain;
@@ -10,7 +20,6 @@ class Requests {
         this.getPlayerList = this.getPlayerList.bind(this);
         
         this.getGameStatus = this.getGameStatus.bind(this);
-        this.checkGameStatus = this.checkGameStatus.bind(this);
 
         this.play = this.play.bind(this);
         this.playCallback = this.playCallback.bind(this);
@@ -55,93 +64,60 @@ class Requests {
         httpRequest({url, onSuccess: callback});
     }
     startGameCallback(response) {
-        // console.log(response);
-        if (response.status !== 'ok') {
-            console.log(response);
-            renderLoginScreen();  // if an error go to the login screen
-            return;
-        }
+        if (isErrorIn(response)) return;
+        
         window.application.gameId = response['player-status'].game.id;
-        this.getGameStatus(window.application.token, window.application.gameId);
+        this.getGameStatus();
     }
     
-    getGameStatus(token, gameId, callback=this.gameStatusCallback) {
-        const url = this.urlDomain + `game-status?token=${token}&id=${gameId}`;
+    getGameStatus(callback=this.gameStatusCallback) {
+        const url = this.urlDomain + `game-status?token=${window.application.token}&id=${window.application.gameId}`;
         httpRequest({url, onSuccess: callback});
     }
     
     gameStatusCallback(response) {
-        // console.log(response);
-        if (response.status !== 'ok') {
-            console.log(response);
-            return;
-        }
+        if (isErrorIn(response)) return;
         
         // checking statuses if response.status == ok
         const status = response['game-status'].status
         if (status === 'waiting-for-start') {
-            // console.log('no enemy yet');
             
-            if (window.application.timer) {
-                // console.log(window.application.counter++);
-            } else renderWaitingScreenNoEnemy();
+            // to render the screen only once while waiting
+            if (!window.application.timer) renderWaitingScreenNoEnemy();
 
         } else if (status === 'waiting-for-enemy-move') {
             
-            if (window.application.timer) {
-                // console.log(window.application.counter++);
-            } else {
-                renderWaitingScreen(window.application.enemy, 'Ожидание хода соперника');
-            }
+            // to render the screen only once while waiting
+            if (!window.application.timer) renderWaitingScreen(window.application.enemy, 'Ожидание хода соперника');
 
         } else {
+            
             // clearing timer for periodical checking the game status
             if (window.application.timer) {
-                // console.log('deleting timer');
-                // console.log(window.application);
                 clearInterval(window.application.timer);
                 window.application.timer = undefined;
-                // window.application.counter = 0;
             }
             
-            if (status === 'win') {
-                renderFinalScreen('Вы выиграли!');
-            
-            } else if (status === 'lose') {
-                renderFinalScreen('Вы проиграли!');
-            
-            } else {
-                
-                // console.log('render game screen');
-                // console.log(`window.application.timer: ${window.application.timer}`);
-                // console.log(`game-status: ${status}`)
+            if (status === 'win') renderFinalScreen('Вы выиграли!');
+            else if (status === 'lose') renderFinalScreen('Вы проиграли!');
+            else {                
                 window.application.enemy = response['game-status'].enemy.login;
-                renderGameScreen(window.application.enemy);    
+                renderGameScreen();    
             }
         }                
     }
-    
-    // to check game-status with a timer
-    checkGameStatus() {
-        this.getGameStatus(window.application.token, window.application.gameId);
-    }
-    
-    play(token, gameId, move, callback=this.playCallback) {
-        const url = this.urlDomain + `play?token=${token}&id=${gameId}&move=${move}`;
+        
+    play(move, callback=this.playCallback) {
+        const url = this.urlDomain + `play?token=${window.application.token}&id=${window.application.gameId}&move=${move}`;
         httpRequest({url, onSuccess: callback});
     }
     
     playCallback(response) {
-        // console.log(response);
-        
-        if (response.status === 'error') {
-            console.log(response);
-            return;
-        }
+        if (isErrorIn(response)) return;
         
         const status = response['game-status'].status;
         if (status === 'win') renderFinalScreen('Вы выиграли!');
         else if (status === 'lose') renderFinalScreen('Вы проиграли!');
-        else this.getGameStatus(window.application.token, window.application.gameId);
+        else this.getGameStatus();
     }
 }

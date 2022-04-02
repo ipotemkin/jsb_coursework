@@ -1,6 +1,5 @@
 function clearScreen() {
     window.application.root.textContent = '';
-    // console.log(window.application.root);
 }
 
 function renderLoginScreen() {
@@ -51,18 +50,11 @@ function renderLobbyScreen() {
     
     _updatePlayerList();
     
-    if (window.application.timerLobby) {
-        // console.log('lobby screen: deleting timer');
-        clearInterval(window.application.timer);
-    }
+    if (window.application.timerLobby) clearInterval(window.application.timer);
     window.application.timerLobby = setInterval(_updatePlayerList, 3000);
         
     lobbyButtonStartGame.addEventListener('click', () => {
-        // console.log('lobby button click');
-        if (window.application.timerLobby) {
-            // console.log('lobby screen start-game-button: deleting timer');
-            clearInterval(window.application.timerLobby);
-        }
+        if (window.application.timerLobby) clearInterval(window.application.timerLobby);
         requests.startGame(window.application.token);
     });
 
@@ -73,9 +65,9 @@ function renderLobbyScreen() {
     
 }
 
-function renderGameScreen(enemy) {
+function renderGameScreen() {
     clearScreen();
-    const screen = templateEngine(GamePageTemplate(enemy));
+    const screen = templateEngine(GamePageTemplate(window.application.enemy));
     app.appendChild(screen);
                            
     const buttonRock = document.querySelector('.game__button-rock');
@@ -84,17 +76,17 @@ function renderGameScreen(enemy) {
 
     buttonRock.addEventListener('click', () => {
         // console.log('rock');
-        requests.play(window.application.token, window.application.gameId, 'rock');
+        requests.play('rock');
     });
 
     buttonScissors.addEventListener('click', () => {
         // console.log('scissors');
-        requests.play(window.application.token, window.application.gameId, 'scissors');
+        requests.play('scissors');
     });
 
     buttonPaper.addEventListener('click', () => {
         // console.log('paper');
-        requests.play(window.application.token, window.application.gameId, 'paper');
+        requests.play('paper');
     });
 }
 
@@ -106,11 +98,8 @@ function renderWaitingScreen(enemy, message) {
     clearScreen();
     const screen = templateEngine(WaitingPageTemplate(enemy, message));
     app.appendChild(screen);
-    if (window.application.timer) {
-        // console.log('waiting screen: deleting timer');
-        clearInterval(window.application.timer);
-    }
-    window.application.timer = setInterval(requests.checkGameStatus, 3000);
+    if (window.application.timer) clearInterval(window.application.timer);
+    window.application.timer = setInterval(requests.getGameStatus, 3000);
 }
 
 function renderFinalScreen(message) {
@@ -121,11 +110,7 @@ function renderFinalScreen(message) {
     const buttonPlayAgain = document.querySelector('.final__button-play-again');
     const buttonLobby = document.querySelector('.final__button-lobby');
 
-    buttonPlayAgain.addEventListener('click', () => {
-        requests.startGame(window.application.token);
-    });
+    buttonPlayAgain.addEventListener('click', () => {requests.startGame(window.application.token);});
 
-    buttonLobby.addEventListener('click', () => {
-        renderLobbyScreen();
-    });
+    buttonLobby.addEventListener('click', () => {renderLobbyScreen();});
 }
