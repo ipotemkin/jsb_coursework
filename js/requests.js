@@ -34,24 +34,16 @@ class Requests {
     }
 
     loginCallback(response) {
-        // console.log(response);
-
-        if (response.status === 'ok') {
-            window.application.token = response.token;
-            this.getPlayerStatus(window.application.token, (response) => {
-                // console.log(response);
-                if (response.status !== 'ok') {
-                    console.log(response);
-                    return;
-                }
-                if (response['player-status'].status === 'lobby') renderLobbyScreen();
-                else {
-                    window.application.gameId = response['player-status'].game.id;
-                    this.getGameStatus(window.application.token, window.application.gameId);
-                }
-                // console.log(window.application.token);                    
-            });
-        }
+        if (isErrorIn(response)) return;
+        window.application.token = response.token;
+        this.getPlayerStatus(window.application.token, (response) => {
+            if (isErrorIn(response)) return;
+            if (response['player-status'].status === 'lobby') renderLobbyScreen();
+            else {
+                window.application.gameId = response['player-status'].game.id;
+                this.getGameStatus(window.application.token, window.application.gameId);
+            }
+        });
     }
 
     getPlayerList(token, callback) {
