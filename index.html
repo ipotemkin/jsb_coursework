@@ -34,6 +34,7 @@
                 'lobby__button':  onClickStartGame,  // code in screens.js
                 'lobby__button-logout': () => {
                     if (window.application.timerLobby) clearInterval(window.application.timerLobby);
+                    window.application.nickName = undefined;
                     renderLoginScreen();
                 }
             }
