@@ -9,26 +9,27 @@ function LoginPageTemplate() {
             },
             {
                 tag: 'h3',
-                content: 'Экран входа',
+                content: 'Введите имя и нажмите на кнопку, чтобы начать игру',
             },
             {
-                tag: 'input',
-                cls: ['login-form__input', 'input'],
-                content: 'input text',
-                attrs: {
-                    placeholder: 'You nickname'
-                }
-            },
-            {
-                tag: 'button',
-                cls: ['login-form__button', 'button'],
-                content: 'Войти'
-            },
-            // {
-            //     tag: 'button',
-            //     cls: 'login-form__game-status',
-            //     content: 'Статус игры'
-            // }
+                tag: 'div',
+                cls: 'buttons-box',
+                content: [
+                    {
+                        tag: 'input',
+                        cls: ['login-form__input', 'input'],
+                        content: 'input text',
+                        attrs: {
+                            placeholder: 'Your nickname'
+                        }
+                    },
+                    {
+                        tag: 'button',
+                        cls: ['login-form__button', 'button'],
+                        content: 'Войти'
+                    },
+                ]       
+            }
         ]
     }
 }
@@ -46,26 +47,21 @@ function LobbyPageTemplate() {
                 tag: 'div',
                 cls: 'lobby__players-list',
             },
-            // // {
-            // //     tag: 'h3',
-            // //     content: 'Экран входа',
-            // // },
-            // {
-            //     tag: 'input',
-            //     content: 'input text',
-            //     attrs: {
-            //         placeholder: 'You nickname'
-            //     }
-            // },
             {
-                tag: 'button',
-                cls: ['lobby__button', 'button'],
-                content: 'Играть!'
-            },
-            {
-                tag: 'button',
-                cls: ['lobby__button-logout', 'button'],
-                content: 'Logout'
+                tag: 'div',
+                cls: 'buttons-box',
+                content: [
+                    {
+                        tag: 'button',
+                        cls: ['lobby__button', 'button'],
+                        content: 'Играть!'
+                    },
+                    {
+                        tag: 'button',
+                        cls: ['lobby__button-logout', 'button'],
+                        content: 'Logout'
+                    }        
+                ]
             }
         ]
     }
@@ -85,25 +81,31 @@ function GamePageTemplate(enemy) {
                 content: `Вы против <${enemy}>`,
             },
             {
-                tag: 'button',
-                cls: ['game__button-rock', 'button'],
-                content: 'Камень'
-            },
-            {
-                tag: 'button',
-                cls: ['game__button-scissors', 'button'],
-                content: 'Ножницы'
-            },
-            {
-                tag: 'button',
-                cls: ['game__button-paper', 'button'],
-                content: 'Бумага'
+                tag: 'div',
+                cls: 'buttons-box',
+                content: [
+                    {
+                        tag: 'button',
+                        cls: ['game__button-rock', 'button'],
+                        content: 'Камень'
+                    },
+                    {
+                        tag: 'button',
+                        cls: ['game__button-scissors', 'button'],
+                        content: 'Ножницы'
+                    },
+                    {
+                        tag: 'button',
+                        cls: ['game__button-paper', 'button'],
+                        content: 'Бумага'
+                    }        
+                ]
             }
         ]
     }
 }
 
-function WaitingPageTemplate(rival, message) {
+function WaitingPageTemplate(rival, message, title='Игра') {
     const rival_str = rival === 'NoEnemyYet' ? '' : `Вы против <${rival}>`
     return {
         tag: 'div',
@@ -111,7 +113,7 @@ function WaitingPageTemplate(rival, message) {
         content: [
             {
                 tag: 'h2',
-                content: 'Игра'
+                content: title
             },
             {
                 tag: 'h3',
@@ -121,18 +123,22 @@ function WaitingPageTemplate(rival, message) {
                 tag: 'h2',
                 content: message,
             },
+            {
+                tag: 'h2',
+                content: '',
+            },
         ]
     }
 }
 
-function FinalPageTemplate(rival, message) {
+function FinalPageTemplate(rival, message, title='Игра') {
     return {
         tag: 'div',
         cls: 'content',
         content: [
             {
                 tag: 'h2',
-                content: 'Игра'
+                content: title
             },
             {
                 tag: 'h3',
@@ -143,16 +149,21 @@ function FinalPageTemplate(rival, message) {
                 content: message,
             },
             {
-                tag: 'button',
-                cls: ['final__button-play-again', 'button'],
-                content: 'Играть еще!'
-            },
-            {
-                tag: 'button',
-                cls: ['final__button-lobby', 'button'],
-                content: 'В лобби'
-            },
-
+                tag: 'div',
+                cls: 'buttons-box',
+                content: [
+                    {
+                        tag: 'button',
+                        cls: ['final__button-play-again', 'button'],
+                        content: 'Играть еще!'
+                    },
+                    {
+                        tag: 'button',
+                        cls: ['final__button-lobby', 'button'],
+                        content: 'В лобби'
+                    },        
+                ]
+            }
         ]
     }
 }

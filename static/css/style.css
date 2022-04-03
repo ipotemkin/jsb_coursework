@@ -1,31 +1,56 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
 html {
     font-family: sans-serif;
+    color: white;
 }
 
 .app {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 12px;
     
-    width: 200px;
+    width: 375px;
+    height: 667px;
     padding: 20px;
 
-    border: 0.5px solid;
-    border-radius: 8px;
+    text-align: center;
 
+
+    /* border: 0.5px solid; */
+    /* border-radius: 8px; */
+
+    background: url('background.jpg');
+    background-repeat: no-repeat center;
+    background-size: cover;
+    /* background-color: black; */
     /* background-color: lightgray; */
 }
 
 .content {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 12px;
 
+    height: 500px;
+    /* width: 300px; */
 
     /* width: 200px; */
 }
 
-.button {
+.buttons-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+/* .button {
     border-radius: 8px;
     border: none;
 
@@ -40,14 +65,39 @@ html {
     cursor: pointer;
     background-color: lightslategray;
     color: white;
+} */
+
+.button {
+    width: 234px;
+    height: 48px;
+    background: #9C0332;
+    border-radius: 30px;
+    border: none;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+    color: #FFFFFF;
+}
+  
+.button:hover {
+    cursor: pointer;
 }
 
 .input {
-    padding-left: 12px;
+    width: 234px;
+    height: 48px;
+    background: #9C0332;
+    border-radius: 30px;
+    border: none;
+    font-size: 18px;
+    line-height: 22px;
+
+    text-align: center;
+    /* padding-left: 12px; */
     
-    height: 24px;
+    /* height: 24px; */
     
-    border-radius: 8px;
+    /* border-radius: 8px; */
     border: none;
 
     background-color: lightgray;

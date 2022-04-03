@@ -21,7 +21,7 @@ function renderLoginScreen() {
 }
 
 function renderLobbyScreen() {
-
+    console.log('render lobby screen');
     function _updatePlayerList() {
         requests.getPlayerList(window.application.token, (response) => {
             // console.log(response);
@@ -104,7 +104,7 @@ function renderWaitingScreen(enemy, message) {
 
 function renderFinalScreen(message) {
     clearScreen();
-    const screen = templateEngine(FinalPageTemplate(window.application.enemy, message));
+    const screen = templateEngine(FinalPageTemplate(window.application.enemy, message, 'Игра окончена'));
     app.appendChild(screen);
 
     const buttonPlayAgain = document.querySelector('.final__button-play-again');

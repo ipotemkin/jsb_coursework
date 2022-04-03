@@ -12,8 +12,8 @@ class Requests {
     constructor(urlDomain) {
         this.urlDomain = urlDomain;
 
-        this.login = this.login.bind(this);
         this.loginCallback = this.loginCallback.bind(this);
+        this.login = this.login.bind(this);
 
         this.getPlayerStatus = this.getPlayerStatus.bind(this);
 
@@ -28,6 +28,7 @@ class Requests {
         this.startGameCallback = this.startGameCallback.bind(this);
     }
     login(loginName, callback=this.loginCallback) {
+        console.log('login');
         const url = this.urlDomain + `login?login=${loginName}`;
         httpRequest({url, onSuccess: callback});
     }
