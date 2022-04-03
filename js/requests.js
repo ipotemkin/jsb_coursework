@@ -27,9 +27,8 @@ class Requests {
         this.startGame = this.startGame.bind(this);
         this.startGameCallback = this.startGameCallback.bind(this);
     }
-    
+
     login(loginName, callback=this.loginCallback) {
-        console.log('login');
         const url = this.urlDomain + `login?login=${loginName}`;
         httpRequest({url, onSuccess: callback});
     }

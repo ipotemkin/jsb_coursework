@@ -1,5 +1,9 @@
 function renderScreen(template) {
     window.application.root.textContent = '';
+    if (window.application.nickName) {
+        const title = document.querySelector('title');
+        title.textContent = `Игра: <${window.application.nickName}>`;
+    }
     const screen = templateEngine(template);
     window.application.root.appendChild(screen);
     return screen;
