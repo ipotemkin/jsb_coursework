@@ -8,14 +8,21 @@ html {
     color: white;
 }
 
+/* .center {
+    padding-left: calc(50% - 600px);
+    padding-right: calc(50% - 600px);
+  }   */
+
 .app {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 12px;
     
-    width: 375px;
-    height: 667px;
+    /* width: 375px; */
+    /* height: 667px; */
+    height: 100vh;
     padding: 20px;
 
     text-align: center;
@@ -24,7 +31,7 @@ html {
     /* border: 0.5px solid; */
     /* border-radius: 8px; */
 
-    background: url('background.jpg');
+    background: url('img/background.jpg');
     background-repeat: no-repeat center;
     background-size: cover;
     /* background-color: black; */
@@ -38,7 +45,7 @@ html {
     gap: 12px;
 
     height: 500px;
-    /* width: 300px; */
+    width: 300px;
 
     /* width: 200px; */
 }

@@ -12,7 +12,7 @@ function LoginPageTemplate() {
                 content: 'Введите имя и нажмите на кнопку, чтобы начать игру',
             },
             {
-                tag: 'div',
+                tag: 'form',
                 cls: 'buttons-box',
                 content: [
                     {
@@ -165,53 +165,5 @@ function FinalPageTemplate(rival, message, title='Игра') {
                 ]
             }
         ]
-    }
-}
-
-
-
-function beerEngineTemplate(beer) {
-    return {
-        tag: 'div',
-        cls: 'beer',
-        content: [{
-            tag: 'div',
-            cls: 'beer__image-container',
-            attrs: {
-                style: `background-image: url(${beer.image_url});`,
-            }
-        },
-        {
-            tag: 'div',
-            cls: 'beer__info',
-            content: [
-                {
-                    tag: 'div',
-                    cls: 'beer__info-top',
-                    content: [
-                        {
-                            tag: 'div',
-                            cls: 'beer__beer-name',
-                            content: trunc(beer.name, 40)
-                        },
-                        {
-                            tag: 'div',
-                            cls: 'beer__beer-tagline',
-                            content: trunc(beer.tagline, 62)
-                        },
-                        {
-                            tag: 'div',
-                            cls: 'beer__beer-description',
-                            content: trunc(beer.description, 150)
-                        }
-                    ]
-                },
-                {
-                    tag: 'div',
-                    cls: 'beer__beer-abv',
-                    content: `alc/vol: ${beer.abv}%`
-                }
-            ]
-        }]
     }
 }

@@ -5,18 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Игра</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <div class="app"></div>
 
-    <script>
-    </script>
-    <script src="template-engine.js"></script>
-    <script src="templates.js"></script>
-    <script src="utils.js"></script>
-    <script src="requests.js"></script>
-    <script src="screens.js"></script>
+    <script src="js/template-engine.js"></script> <!-- renders templates -->
+    <script src="js/templates.js"></script> <!-- templates to render game screens -->
+    <script src="js/http-request.js"></script> <!-- function to handle http requests -->
+    <script src="js/requests.js"></script> <!-- handles requests to the game server -->
+    <script src="js/screens.js"></script> <!-- renders game screens -->
     <script>
         window.application = {
             root: undefined,
@@ -24,14 +22,50 @@
             nickName: undefined,
             gameId: undefined,
             enemy: undefined,
-            timer: undefined,
-            timerLobby: undefined,
-            counter: 0,
+            timer: undefined,  // timer for waiting screens
+            timerLobby: undefined,  // timer for the lobby to check players' presence
+            timerInterval: 3000,
+            handlers: {
+                'game__button-rock': () => {requests.play('rock');},
+                'game__button-scissors': () => {requests.play('scissors');},
+                'game__button-paper': () => {requests.play('paper');},
+                'final__button-play-again': onClickStartGame,
+                'final__button-lobby': () => {renderLobbyScreen();},
+                'lobby__button':  onClickStartGame,
+                'lobby__button-logout': () => {
+                    if (window.application.timerLobby) clearInterval(window.application.timerLobby);
+                    renderLoginScreen();
+                }
+            }
         }
         
         const urlDomain = 'https://skypro-rock-scissors-paper.herokuapp.com/';
         const requests = new Requests(urlDomain);
-        const app = window.application.root = document.querySelector('.app');
+        window.application.root = document.querySelector('.app');
+        
+        // function onClickRock() {requests.play('rock');}
+        // function onClickScissors() {requests.play('scissors');}
+        // function onClickPaper() {requests.play('paper');}
+        
+        // function onClickStartGame() {
+        //     if (window.application.timerLobby) clearInterval(window.application.timerLobby);
+        //     requests.startGame(window.application.token);
+        // }
+        
+        // function onClickLobby() {renderLobbyScreen();}
+
+        // function onButtonLogout() {
+        //     if (window.application.timerLobby) clearInterval(window.application.timerLobby);
+        //     renderLoginScreen();
+        // }
+
+        // window.application.handlers['game__button-rock'] = onClickRock;
+        // window.application.handlers['game__button-scissors'] = onClickScissors;
+        // window.application.handlers['game__button-paper'] = onClickPaper;
+        // window.application.handlers['final__button-play-again'] = onClickPlayAgain;
+        // window.application.handlers['final__button-lobby'] = onClickLobby;
+        // window.application.handlers['lobby__button'] = onClickPlayAgain;
+        // window.application.handlers['lobby__button-logout'] = onButtonLogout;
 
         renderLoginScreen();
 
