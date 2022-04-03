@@ -46,39 +46,19 @@ function renderLobbyScreen() {
     const screen = renderScreen(LobbyPageTemplate());
     screen.style.display = 'none';  // to render the screen without delay (step 1)
                            
-    // const lobbyButtonStartGame = screen.querySelector('.lobby__button');
-    // const lobbyButtonLogout = screen.querySelector('.lobby__button-logout');
     const lobbyPlayersList = screen.querySelector('.lobby__players-list');
     
     _updatePlayerList();
     
+    // sets an interval to check players in the lobby
     if (window.application.timerLobby) clearInterval(window.application.timer);
     window.application.timerLobby = setInterval(_updatePlayerList, window.application.timerInterval);
-        
-    // lobbyButtonStartGame.addEventListener('click', () => {
-    //     if (window.application.timerLobby) clearInterval(window.application.timerLobby);
-    //     requests.startGame(window.application.token);
-    // });
 
-    // lobbyButtonLogout.addEventListener('click', () => {
-    //     if (window.application.timerLobby) clearInterval(window.application.timerLobby);
-    //     renderLoginScreen();
-    // });
-    
     setHandlers(screen);
 }
 
 function renderGameScreen() {
-    const screen = renderScreen(GamePageTemplate(window.application.enemy));
-                           
-    // const buttonRock = screen.querySelector('.game__button-rock');
-    // const buttonScissors = screen.querySelector('.game__button-scissors');
-    // const buttonPaper = screen.querySelector('.game__button-paper');
-
-    // buttonRock.addEventListener('click', () => {requests.play('rock');});
-    // buttonScissors.addEventListener('click', () => {requests.play('scissors');});
-    // buttonPaper.addEventListener('click', () => {requests.play('paper');});
-    
+    const screen = renderScreen(GamePageTemplate(window.application.enemy));    
     setHandlers(screen);
 }
 
@@ -88,22 +68,19 @@ function renderWaitingScreenNoEnemy() {
 
 function renderWaitingScreen(enemy, message) {
     renderScreen(WaitingPageTemplate(enemy, message));
+    
+    // sets an interval to wait for the enemy to connect or make a move
     if (window.application.timer) clearInterval(window.application.timer);
     window.application.timer = setInterval(requests.getGameStatus, window.application.timerInterval);
 }
 
 function renderFinalScreen(message) {
-    const screen = renderScreen(FinalPageTemplate(window.application.enemy, message, 'Игра окончена'));
-
-    // const buttonPlayAgain = screen.querySelector('.final__button-play-again');
-    // const buttonLobby = screen.querySelector('.final__button-lobby');
-
-    // buttonPlayAgain.addEventListener('click', () => {requests.startGame(window.application.token);});
-    // buttonLobby.addEventListener('click', () => {renderLobbyScreen();});
-    
+    const screen = renderScreen(FinalPageTemplate(window.application.enemy, message, 'Игра окончена'));    
     setHandlers(screen);
 }
 
+// sets event listeners to buttons
+// identification on the first class in the element's classList !!!
 function setHandlers(screen) {
     for(let child of screen.children) {
         setHandlers(child);
@@ -113,6 +90,7 @@ function setHandlers(screen) {
     }
 }
 
+// return the handler function
 function getHandler(handlerName) {
     if (handlerName in window.application.handlers) return window.application.handlers[handlerName];
     return undefined;

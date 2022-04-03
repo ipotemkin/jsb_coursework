@@ -31,7 +31,7 @@
                 'game__button-paper': () => {requests.play('paper');},
                 'final__button-play-again': onClickStartGame,
                 'final__button-lobby': () => {renderLobbyScreen();},
-                'lobby__button':  onClickStartGame,
+                'lobby__button':  onClickStartGame,  // code in screens.js
                 'lobby__button-logout': () => {
                     if (window.application.timerLobby) clearInterval(window.application.timerLobby);
                     renderLoginScreen();
@@ -43,30 +43,6 @@
         const requests = new Requests(urlDomain);
         window.application.root = document.querySelector('.app');
         
-        // function onClickRock() {requests.play('rock');}
-        // function onClickScissors() {requests.play('scissors');}
-        // function onClickPaper() {requests.play('paper');}
-        
-        // function onClickStartGame() {
-        //     if (window.application.timerLobby) clearInterval(window.application.timerLobby);
-        //     requests.startGame(window.application.token);
-        // }
-        
-        // function onClickLobby() {renderLobbyScreen();}
-
-        // function onButtonLogout() {
-        //     if (window.application.timerLobby) clearInterval(window.application.timerLobby);
-        //     renderLoginScreen();
-        // }
-
-        // window.application.handlers['game__button-rock'] = onClickRock;
-        // window.application.handlers['game__button-scissors'] = onClickScissors;
-        // window.application.handlers['game__button-paper'] = onClickPaper;
-        // window.application.handlers['final__button-play-again'] = onClickPlayAgain;
-        // window.application.handlers['final__button-lobby'] = onClickLobby;
-        // window.application.handlers['lobby__button'] = onClickPlayAgain;
-        // window.application.handlers['lobby__button-logout'] = onButtonLogout;
-
         renderLoginScreen();
 
     </script>

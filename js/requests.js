@@ -27,11 +27,13 @@ class Requests {
         this.startGame = this.startGame.bind(this);
         this.startGameCallback = this.startGameCallback.bind(this);
     }
+    
     login(loginName, callback=this.loginCallback) {
         console.log('login');
         const url = this.urlDomain + `login?login=${loginName}`;
         httpRequest({url, onSuccess: callback});
     }
+
     loginCallback(response) {
         // console.log(response);
 
@@ -52,18 +54,22 @@ class Requests {
             });
         }
     }
+
     getPlayerList(token, callback) {
         const url = this.urlDomain + `player-list?token=${token}`;
         httpRequest({url, onSuccess: callback});
     }
+
     getPlayerStatus(token, callback) {
         const url = this.urlDomain + `player-status?token=${token}`;
         httpRequest({url, onSuccess: callback});
     }
+
     startGame(token, callback=this.startGameCallback) {
         const url = this.urlDomain + `start?token=${token}`;
         httpRequest({url, onSuccess: callback});
     }
+
     startGameCallback(response) {
         if (isErrorIn(response)) return;
         
