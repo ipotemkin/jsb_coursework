@@ -126,7 +126,7 @@ function WaitingPageTemplate(rival, message, title='Игра') {
             {
                 tag: 'h2',
                 content: '',
-            },
+            }
         ]
     }
 }
