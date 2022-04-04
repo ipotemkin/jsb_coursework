@@ -20,7 +20,7 @@ function LoginPageTemplate() {
                         cls: ['login-form__input', 'input'],
                         content: 'input text',
                         attrs: {
-                            placeholder: 'Your nickname'
+                            placeholder: 'Ваше имя'
                         }
                     },
                     {
