@@ -11,42 +11,14 @@ function isErrorIn(response) {
 class Requests {
     constructor(urlDomain) {
         this.urlDomain = urlDomain;
-
-        // this.loginCallback = this.loginCallback.bind(this);
-        // this.login = this.login.bind(this);
-
-        this.getPlayerStatus = this.getPlayerStatus.bind(this);
-
-        this.getPlayerList = this.getPlayerList.bind(this);
-        
-        this.getGameStatus = this.getGameStatus.bind(this);
-
-        this.play = this.play.bind(this);
-        this.playCallback = this.playCallback.bind(this);
-        
-        this.startGame = this.startGame.bind(this);
-        this.startGameCallback = this.startGameCallback.bind(this);
     }
 
-    login(loginName, callback=this.loginCallback) {
+    login = (loginName, callback=this.loginCallback) => {
         const url = this.urlDomain + `login?login=${loginName}`;
         httpRequest({url, onSuccess: callback});
     }
 
-    // loginCallback(response) {
-    //     if (isErrorIn(response)) return;
-    //     window.application.token = response.token;
-    //     this.getPlayerStatus(window.application.token, (response) => {
-    //         if (isErrorIn(response)) return;
-    //         if (response['player-status'].status === 'lobby') renderLobbyScreen();
-    //         else {
-    //             window.application.gameId = response['player-status'].game.id;
-    //             this.getGameStatus(window.application.token, window.application.gameId);
-    //         }
-    //     });
-    // }
-
-    loginCallback = (response) => {
+    loginCallback = response => {
         if (isErrorIn(response)) return;
         window.application.token = response.token;
         const { token } = window.application;
@@ -60,36 +32,35 @@ class Requests {
         });
     }
 
-
-    getPlayerList(token, callback) {
+    getPlayerList = (token, callback) => {
         const url = this.urlDomain + `player-list?token=${token}`;
         httpRequest({url, onSuccess: callback});
     }
 
-    getPlayerStatus(token, callback) {
+    getPlayerStatus = (token, callback) => {
         const url = this.urlDomain + `player-status?token=${token}`;
         httpRequest({url, onSuccess: callback});
     }
 
-    startGame(token, callback=this.startGameCallback) {
+    startGame = (token, callback=this.startGameCallback) => {
         const url = this.urlDomain + `start?token=${token}`;
         httpRequest({url, onSuccess: callback});
     }
 
-    startGameCallback(response) {
+    startGameCallback = response => {
         if (isErrorIn(response)) return;
         
         window.application.gameId = response['player-status'].game.id;
         this.getGameStatus();
     }
     
-    getGameStatus(callback=this.gameStatusCallback) {
+    getGameStatus = (callback=this.gameStatusCallback) => {
         const { token, gameId } = window.application;
         const url = this.urlDomain + `game-status?token=${token}&id=${gameId}`;
         httpRequest({url, onSuccess: callback});
     }
     
-    gameStatusCallback(response) {
+    gameStatusCallback = response => {
         if (isErrorIn(response)) return;
         
         const { timer } = window.application;
@@ -123,13 +94,13 @@ class Requests {
         }                
     }
         
-    play(move, callback=this.playCallback) {
+    play = (move, callback=this.playCallback) => {
         const { token, gameId } = window.application;
         const url = this.urlDomain + `play?token=${token}&id=${gameId}&move=${move}`;
         httpRequest({url, onSuccess: callback});
     }
     
-    playCallback(response) {
+    playCallback = response => {
         if (isErrorIn(response)) return;
         
         const status = response['game-status'].status;
