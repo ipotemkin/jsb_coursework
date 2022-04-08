@@ -24,7 +24,7 @@ function renderLoginScreen() {
     const loginFormButton = screen.querySelector('.login-form__button');
     const nickName = screen.querySelector('.login-form__input');
     
-    loginFormButton.addEventListener('click', (event) => {
+    loginFormButton.addEventListener('click', event => {
         
         if (!nickName.value) return;  // do nothing if nothing entered
                                 

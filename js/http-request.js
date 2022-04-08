@@ -6,7 +6,7 @@ function httpRequest(
         method = 'GET',
         body = '',
         onSuccess = noop,
-        onError = (error) => {console.error(error)},
+        onError = (error) => console.error(error),
         headersName = 'Content-type', 
         headersValue = 'application/x-www-form-urlencoded',
         async = true
@@ -30,9 +30,7 @@ function httpRequest(
         else onError(request.response || 'Error: ' + request.status);
     });
 
-    request.addEventListener('error', () => {
-        onError('No internet connection');
-    });
+    request.addEventListener('error', () => onError('No internet connection'));
     
     if (!async) return JSON.parse(request.response);
 }
