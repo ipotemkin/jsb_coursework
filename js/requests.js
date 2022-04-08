@@ -14,36 +14,39 @@ class Requests {
     }
 
     login = (loginName, callback=this.loginCallback) => {
-        const url = this.urlDomain + `login?login=${loginName}`;
+        const url = `${this.urlDomain}login?login=${loginName}`;
         httpRequest({url, onSuccess: callback});
     }
 
     loginCallback = response => {
         if (isErrorIn(response)) return;
         window.application.token = response.token;
+        this.getPlayerStatus();
+    }
+
+    getPlayerList = callback => {
         const { token } = window.application;
-        this.getPlayerStatus(token, (response) => {
-            if (isErrorIn(response)) return;
-            if (response['player-status'].status === 'lobby') renderLobbyScreen();
-            else {
-                window.application.gameId = response['player-status'].game.id;
-                this.getGameStatus(token, window.application.gameId);
-            }
-        });
-    }
-
-    getPlayerList = (token, callback) => {
-        const url = this.urlDomain + `player-list?token=${token}`;
+        const url = `${this.urlDomain}player-list?token=${token}`;
         httpRequest({url, onSuccess: callback});
     }
 
-    getPlayerStatus = (token, callback) => {
-        const url = this.urlDomain + `player-status?token=${token}`;
+    getPlayerStatus = (callback=this.getPlayerStatusCallback) => {
+        const { token } = window.application;
+        const url = `${this.urlDomain}player-status?token=${token}`;
         httpRequest({url, onSuccess: callback});
+    }
+
+    getPlayerStatusCallback = response => {
+        if (isErrorIn(response)) return;
+        if (response['player-status'].status === 'lobby') renderLobbyScreen();
+        else {
+            window.application.gameId = response['player-status'].game.id;
+            this.getGameStatus(window.application.gameId);
+        }
     }
 
     startGame = (token, callback=this.startGameCallback) => {
-        const url = this.urlDomain + `start?token=${token}`;
+        const url = `${this.urlDomain}start?token=${token}`;
         httpRequest({url, onSuccess: callback});
     }
 
@@ -56,7 +59,7 @@ class Requests {
     
     getGameStatus = (callback=this.gameStatusCallback) => {
         const { token, gameId } = window.application;
-        const url = this.urlDomain + `game-status?token=${token}&id=${gameId}`;
+        const url =  `${this.urlDomain}game-status?token=${token}&id=${gameId}`;
         httpRequest({url, onSuccess: callback});
     }
     
@@ -66,7 +69,7 @@ class Requests {
         const { timer } = window.application;
         
         // checking statuses if response.status == ok
-        const status = response['game-status'].status
+        const { status } = response['game-status']
         if (status === 'waiting-for-start') {
             
             // to render the screen only once while waiting
@@ -91,19 +94,32 @@ class Requests {
                 window.application.enemy = response['game-status'].enemy.login;
                 renderGameScreen();    
             }
+
+            // switch (status) {
+            //     case 'win':
+            //         renderFinalScreen('Вы выиграли!');
+            //         break;
+            //     case 'lose':
+            //         renderFinalScreen('Вы проиграли!');
+            //         break;
+            //     default:
+            //         window.application.enemy = response['game-status'].enemy.login;
+            //         renderGameScreen();        
+            // }
+
         }                
     }
         
     play = (move, callback=this.playCallback) => {
         const { token, gameId } = window.application;
-        const url = this.urlDomain + `play?token=${token}&id=${gameId}&move=${move}`;
+        const url = `${this.urlDomain}play?token=${token}&id=${gameId}&move=${move}`;
         httpRequest({url, onSuccess: callback});
     }
     
     playCallback = response => {
         if (isErrorIn(response)) return;
         
-        const status = response['game-status'].status;
+        const { status } = response['game-status'];
         if (status === 'win') renderFinalScreen('Вы выиграли!');
         else if (status === 'lose') renderFinalScreen('Вы проиграли!');
         else this.getGameStatus();
