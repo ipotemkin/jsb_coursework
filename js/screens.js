@@ -1,17 +1,21 @@
 function renderScreen(template) {
-    window.application.root.textContent = '';
+    const { root } =  window.application;
+    root.textContent = '';
     
     const title = document.querySelector('title');
-    title.textContent = window.application.nickName ? `Игра: <${window.application.nickName}>` : 'Игра';
     
-    const screen = templateEngine(template);
-    window.application.root.appendChild(screen);
+    const { nickName } = window.application;
+    title.textContent = nickName ? `Игра: <${nickName}>` : 'Игра';
+    
+    const screen = templateEngine(template);    
+    root.appendChild(screen);
     return screen;
 }
 
 function onClickStartGame() {
-    if (window.application.timerLobby) clearInterval(window.application.timerLobby);
-    requests.startGame(window.application.token);
+    const { timerLobby, token } = window.application;
+    if (timerLobby) clearInterval(timerLobby);
+    requests.startGame(token);
 }
 
 function renderLoginScreen() {
@@ -55,8 +59,9 @@ function renderLobbyScreen() {
     _updatePlayerList();
     
     // sets an interval to check players in the lobby
-    if (window.application.timerLobby) clearInterval(window.application.timer);
-    window.application.timerLobby = setInterval(_updatePlayerList, window.application.timerInterval);
+    const { timerLobby, timerInterval } = window.application;
+    if (timerLobby) clearInterval(timerLobby);
+    window.application.timerLobby = setInterval(_updatePlayerList, timerInterval);
 
     setHandlers(screen);
 }
@@ -74,8 +79,9 @@ function renderWaitingScreen(enemy, message) {
     renderScreen(WaitingPageTemplate(enemy, message));
     
     // sets an interval to wait for the enemy to connect or make a move
-    if (window.application.timer) clearInterval(window.application.timer);
-    window.application.timer = setInterval(requests.getGameStatus, window.application.timerInterval);
+    const { timer, timerInterval } = window.application;
+    if (timer) clearInterval(timer);
+    window.application.timer = setInterval(requests.getGameStatus, timerInterval);
 }
 
 function renderFinalScreen(message) {
@@ -96,6 +102,7 @@ function setHandlers(screen) {
 
 // return the handler function
 function getHandler(handlerName) {
-    if (handlerName in window.application.handlers) return window.application.handlers[handlerName];
+    const { handlers } = window.application;
+    if (handlerName in handlers) return handlers[handlerName];
     return undefined;
 }
