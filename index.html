@@ -26,11 +26,11 @@
             timerLobby: undefined,  // timer for the lobby to check players' presence
             timerInterval: 3000,
             handlers: {
-                'game__button-rock': () => {requests.play('rock');},
-                'game__button-scissors': () => {requests.play('scissors');},
-                'game__button-paper': () => {requests.play('paper');},
+                'game__button-rock': () => requests.play('rock'),
+                'game__button-scissors': () => requests.play('scissors'),
+                'game__button-paper': () => requests.play('paper'),
                 'final__button-play-again': onClickStartGame,
-                'final__button-lobby': () => {renderLobbyScreen();},
+                'final__button-lobby': () => renderLobbyScreen(),
                 'lobby__button':  onClickStartGame,  // code in screens.js
                 'lobby__button-logout': () => {
                     if (window.application.timerLobby) clearInterval(window.application.timerLobby);

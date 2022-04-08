@@ -36,7 +36,7 @@ function renderLoginScreen() {
 
 function renderLobbyScreen() {
     function _updatePlayerList() {
-        requests.getPlayerList(window.application.token, (response) => {
+        requests.getPlayerList(window.application.token, response => {
             
             lobbyPlayersList.textContent = '';
             let i = 1;
